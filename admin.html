@@ -232,13 +232,17 @@
                 <div class="cyber-glass rounded-2xl p-6 box-glow-blue">
                     <div class="flex items-center justify-between mb-4 pb-3 border-b border-blue-500/25">
                         <h3 class="text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                            <i class="fa-solid fa-building-columns text-blue-400"></i>Global Payment Telemetry
+                            <i class="fa-solid fa-building-columns text-blue-400"></i>Global Payment & Notification Telemetry
                         </h3>
                     </div>
                     <form onsubmit="savePaymentSettings(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Bank / Telebirr Account Info</label>
                             <input type="text" id="bank-input" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="Telebirr: 09XXXXXXXX - Name">
+                        </div>
+                        <div>
+                            <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Notification Email Address</label>
+                            <input type="email" id="email-input" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="admin@domain.com">
                         </div>
                         <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-2.5 rounded-xl code-font text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 border border-blue-400/40">
                             UPDATE PAYMENT GATEWAY
@@ -304,11 +308,19 @@
             loadAdminData();
         }
 
-        // Load Bank Settings & Courses in Admin Panel
+        // Load Bank Settings, Notification Email & Courses in Admin Panel
         function loadAdminData() {
             db.collection("settings").doc("payment").get().then((doc) => {
-                if(doc.exists && doc.data().bankDetails) {
-                    document.getElementById("bank-input").value = doc.data().bankDetails;
+                if(doc.exists) {
+                    if(doc.data().bankDetails) {
+                        document.getElementById("bank-input").value = doc.data().bankDetails;
+                    }
+                    if(doc.data().notificationEmail) {
+                        document.getElementById("email-input").value = doc.data().notificationEmail;
+                    } else {
+                        // Fallback default if not set yet
+                        document.getElementById("email-input").value = "natanimsiraw@gmail.com";
+                    }
                 }
             });
 
@@ -401,10 +413,15 @@
         function savePaymentSettings(e) {
             e.preventDefault();
             const bankDetails = document.getElementById("bank-input").value;
-            db.collection("settings").doc("payment").set({ bankDetails }).then(() => {
-                alert("Global payment telemetry updated successfully.");
+            const notificationEmail = document.getElementById("email-input").value;
+            
+            db.collection("settings").doc("payment").set({ 
+                bankDetails, 
+                notificationEmail 
+            }, { merge: true }).then(() => {
+                alert("Global payment and email telemetry updated successfully.");
             }).catch(err => {
-                alert("Error updating payment info: " + err.message);
+                alert("Error updating settings: " + err.message);
             });
         }
     </script>
