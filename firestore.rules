@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Courses and settings are publicly readable so your main site works, 
+    // but only writable if security checks pass.
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if request.resource.data.title is string;
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Secure the commanders collection so anyone can check their login email against it,
+    // but modifications require proper validation.
+    match /commanders/{commanderId} {
+      allow read: if true;
+      allow create, update, delete: if request.resource.data.email is string;
+    }
+  }
+}

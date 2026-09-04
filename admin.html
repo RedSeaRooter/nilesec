@@ -1,300 +1,124 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nilesec Academy | Operator Control Center</title>
+    <title>Nilesec Academy | Operator Control</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap');
-        
-        body { 
-            font-family: 'Rajdhani', sans-serif; 
-            background-color: #010204; 
-            color: #cbd5e1; 
-            overflow-x: hidden;
-        }
-        
-        .code-font { font-family: 'Share Tech Mono', monospace; }
-        
-        .glow-blue { 
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.9), 0 0 60px rgba(59, 130, 246, 0.5); 
-        }
-        
-        .box-glow-blue { 
-            box-shadow: 0 0 45px rgba(59, 130, 246, 0.16), inset 0 0 20px rgba(59, 130, 246, 0.06); 
-        }
-        
-        .box-glow-blue-hover:hover { 
-            box-shadow: 0 0 60px rgba(59, 130, 246, 0.45), inset 0 0 30px rgba(59, 130, 246, 0.2); 
-            border-color: rgba(59, 130, 246, 1);
-        }
-
-        /* Cinematic Advanced Tactical Grid & Lighting */
-        .tactical-bg { 
-            background-color: #010204;
-            background-image: 
-                radial-gradient(circle at 50% -20%, rgba(37, 99, 235, 0.25) 0%, transparent 70%),
-                radial-gradient(circle at 10% 80%, rgba(14, 116, 144, 0.15) 0%, transparent 50%),
-                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), 
-                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.5; transform: scale(1); filter: brightness(1); }
-            50% { opacity: 0.9; transform: scale(1.05); filter: brightness(1.2); }
-        }
-
-        .animate-pulse-glow {
-            animation: pulseGlow 5s ease-in-out infinite;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(1200%); }
-        }
-
-        .scanner-line {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 1), transparent);
-            box-shadow: 0 0 15px rgba(96, 165, 250, 0.8);
-            animation: scanline 4.5s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-        }
-
-        .animate-float {
-            animation: floatSlow 6s ease-in-out infinite;
-        }
-
-        /* Ultra Cyber Glassmorphism */
-        .cyber-glass {
-            background: linear-gradient(135deg, rgba(10, 15, 28, 0.85), rgba(4, 8, 16, 0.95));
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-        }
-
-        .neon-border-wrap {
-            position: relative;
-            border-radius: 1.5rem;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(3, 7, 18, 0.8), rgba(59, 130, 246, 0.1));
-            padding: 1px;
-            transition: all 0.5s ease;
-        }
-        .neon-border-wrap:hover {
-            background: linear-gradient(135deg, rgba(96, 165, 250, 1), rgba(30, 58, 138, 0.9), rgba(59, 130, 246, 0.8));
-            box-shadow: 0 0 35px rgba(59, 130, 246, 0.4);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #010204; }
-        ::-webkit-scrollbar-thumb { background: #1d4ed8; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        body { background-color: #050811; color: #e2e8f0; }
     </style>
 </head>
-<body class="tactical-bg min-h-screen selection:bg-blue-600 selection:text-white relative">
+<body class="min-h-screen flex flex-col">
 
-    <!-- CINEMATIC TOP HEADER -->
-    <header class="border-b border-blue-500/25 cyber-glass sticky top-0 z-50 transition-all duration-500">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center space-x-4 group">
-                <div class="relative w-12 h-12 rounded-xl border border-blue-500/60 overflow-hidden box-glow-blue flex-shrink-0 bg-black group-hover:border-blue-400 transition-all duration-500">
-                    <div class="absolute inset-0 bg-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <img src="photo_2026-06-20_18-04-20.jpg" alt="Nilesec Logo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+    <!-- Auth Gate Modal -->
+    <div id="auth-gate" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center px-4">
+        <div class="max-w-md w-full bg-black/80 border border-blue-500/30 rounded-2xl p-8 shadow-2xl shadow-blue-500/10">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/40 flex items-center justify-center text-blue-400 font-bold code-font mx-auto mb-3">NS</div>
+                <h2 class="text-white font-bold tracking-wider text-lg">COMMANDER AUTHENTICATION</h2>
+                <p class="text-xs code-font text-gray-400 mt-1">Enter your assigned tactical clearance credentials.</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs code-font text-blue-400 mb-1">OPERATOR EMAIL</label>
+                    <input type="email" id="admin-email" required class="w-full bg-black/50 border border-blue-500/30 rounded-lg px-4 py-2.5 text-white text-sm code-font focus:outline-none focus:border-blue-400">
                 </div>
                 <div>
-                    <span class="text-xl font-bold tracking-widest text-white block">NILESEC <span class="text-blue-500 glow-blue">COMMAND</span></span>
-                    <span class="text-[10px] code-font text-blue-400 tracking-widest uppercase">[ OPERATOR TERMINAL V4.5 ]</span>
+                    <label class="block text-xs code-font text-blue-400 mb-1">ACCESS PASSWORD</label>
+                    <input type="password" id="admin-pass" required class="w-full bg-black/50 border border-blue-500/30 rounded-lg px-4 py-2.5 text-white text-sm code-font focus:outline-none focus:border-blue-400">
                 </div>
-            </a>
-            
-            <div class="flex items-center space-x-5 text-sm code-font">
-                <a href="index.html" class="px-4 py-2 rounded-xl bg-blue-600/20 border border-blue-500/40 text-blue-300 hover:bg-blue-600 hover:text-white transition-all shadow-lg shadow-blue-500/10 flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-left"></i><span>RETURN TO SITE</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- AUTHENTICATION GATEWAY -->
-    <div id="auth-gate" class="min-h-[calc(100vh-80px)] flex items-center justify-center px-6 relative">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"></div>
-        
-        <div class="max-w-md w-full relative z-10 animate-float">
-            <div class="neon-border-wrap">
-                <div class="cyber-glass rounded-3xl p-8 md:p-10 box-glow-blue relative overflow-hidden">
-                    <div class="scanner-line"></div>
-                    
-                    <div class="text-center mb-8">
-                        <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/40 flex items-center justify-center mx-auto mb-4 box-glow-blue">
-                            <i class="fa-solid fa-user-shield text-2xl text-blue-400"></i>
-                        </div>
-                        <span class="text-xs code-font text-blue-400 uppercase tracking-[0.3em] block mb-1">[ RESTRICTED ACCESS ]</span>
-                        <h2 class="text-2xl font-bold text-white uppercase tracking-wider">Operator Gateway</h2>
-                    </div>
-
-                    <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
-                        <div>
-                            <label class="block text-xs code-font text-gray-400 uppercase mb-2">Operator Key / Password</label>
-                            <input type="password" id="admin-pass" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/40 code-font text-sm transition-all" placeholder="Enter tactical key...">
-                        </div>
-                        <p id="login-error" class="text-xs code-font text-red-400 hidden text-center">ACCESS DENIED: Invalid tactical key.</p>
-                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-4 rounded-xl code-font uppercase tracking-wider transition-all shadow-xl shadow-blue-600/50 border border-blue-300/40">
-                            INITIALIZE SESSION
-                        </button>
-                    </form>
-                </div>
-            </div>
+                <div id="login-error" class="hidden text-red-400 text-xs code-font bg-red-500/10 border border-red-500/30 p-2.5 rounded-lg text-center"></div>
+                <button type="submit" class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold code-font text-xs tracking-wider transition-all shadow-lg shadow-blue-600/20">VERIFY CREDENTIALS</button>
+            </form>
         </div>
     </div>
 
-    <!-- COMMAND DASHBOARD (HIDDEN UNTIL AUTH) -->
-    <div id="admin-dashboard" class="hidden max-w-7xl mx-auto px-6 py-12 relative z-10 space-y-12">
-        
-        <!-- DASHBOARD HEADER -->
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 cyber-glass p-8 rounded-3xl box-glow-blue">
-            <div>
-                <span class="text-xs code-font text-blue-400 uppercase tracking-[0.3em] block mb-1">[ CONTROL CENTER ACTIVE ]</span>
-                <h1 class="text-3xl font-extrabold text-white uppercase tracking-wider">Mission Command Hub</h1>
+    <!-- Admin Dashboard (Hidden by default until authorized) -->
+    <div id="admin-dashboard" class="hidden flex-grow flex flex-col">
+        <header class="border-b border-blue-500/20 bg-black/40 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <h1 class="text-white font-bold tracking-wider text-sm">COMMAND CENTER</h1>
+                <span class="text-[10px] code-font bg-blue-500/15 border border-blue-500/40 text-blue-400 px-2 py-0.5 rounded-full">SECURE SESSION ACTIVE</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-xs code-font text-green-400 bg-green-500/15 border border-green-500/40 px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-green-500/10">
-                    <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>SECURE LINK ESTABLISHED
-                </span>
-                <button onclick="handleLogout()" class="px-4 py-2 rounded-xl bg-red-500/15 border border-red-500/40 text-red-400 hover:bg-red-600 hover:text-white transition-all code-font text-xs font-bold shadow-lg shadow-red-500/10">
-                    <i class="fa-solid fa-power-off mr-2"></i>TERMINATE
-                </button>
+            <button onclick="handleLogout()" class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white transition-all code-font text-xs">
+                <i class="fa-solid fa-power-off mr-1"></i>DISCONNECT
+            </button>
+        </header>
+
+        <main class="container mx-auto px-6 py-10 flex-grow max-w-4xl w-full">
+            <div class="bg-black/60 border border-blue-500/25 rounded-xl p-6 mb-8">
+                <h3 class="text-white font-bold text-sm mb-4"><i class="fa-solid fa-shield-cat text-blue-400 mr-2"></i>System Security State</h3>
+                <p class="text-xs code-font text-gray-400 leading-relaxed">
+                    Database write access is currently locked down globally via server-side Firestore security rules (<code class="text-blue-400">allow write: if false</code>). This completely neutralizes database injection and defacement attacks.
+                </p>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- LEFT COLUMN: CREATE OR EDIT MISSION -->
-            <div class="lg:col-span-1">
-                <div class="neon-border-wrap sticky top-28">
-                    <div class="cyber-glass rounded-2xl p-6 box-glow-blue">
-                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-blue-500/25">
-                            <h3 id="form-mode-title" class="text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                                <i class="fa-solid fa-plus text-blue-400"></i>Deploy New Mission
-                            </h3>
-                            <button id="cancel-edit-btn" onclick="resetCourseForm()" class="hidden text-xs code-font text-gray-400 hover:text-white underline">Cancel Edit</button>
-                        </div>
-
-                        <form id="course-form" onsubmit="saveCourse(event)" class="space-y-4">
-                            <input type="hidden" id="edit-course-id">
-                            <div>
-                                <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Mission Title</label>
-                                <input type="text" id="c-title" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="e.g., Advanced Web Pentesting">
-                            </div>
-                            <div>
-                                <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Description</label>
-                                <textarea id="c-desc" required rows="3" class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all resize-none" placeholder="Mission objectives and modules..."></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Duration</label>
-                                <input type="text" id="c-duration" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="e.g., 10 Weeks">
-                            </div>
-                            <div>
-                                <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Image URL</label>
-                                <input type="url" id="c-image" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="https://image-link.jpg">
-                            </div>
-                            <div>
-                                <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Operational Status</label>
-                                <select id="c-status" class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all">
-                                    <option value="Open">Open / Operational</option>
-                                    <option value="Closed">Closed / Locked</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3.5 rounded-xl code-font uppercase tracking-wider transition-all shadow-lg shadow-blue-600/40 border border-blue-300/40 mt-2">
-                                TRANSMIT MISSION RECORD
-                            </button>
-                        </form>
-                    </div>
+            <div class="space-y-6">
+                <h3 class="text-white font-bold text-sm"><i class="fa-solid fa-list text-blue-400 mr-2"></i>Live Mission Telemetry</h3>
+                <div id="admin-courses-list" class="space-y-4">
+                    <!-- Populated securely -->
                 </div>
             </div>
-
-            <!-- RIGHT COLUMN: MANAGE MISSIONS & GLOBAL PAYMENT SETTINGS -->
-            <div class="lg:col-span-2 space-y-8">
-                
-                <!-- GLOBAL PAYMENT TELEMETRY SETTINGS -->
-                <div class="cyber-glass rounded-2xl p-6 box-glow-blue">
-                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-blue-500/25">
-                        <h3 class="text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                            <i class="fa-solid fa-building-columns text-blue-400"></i>Global Payment & Notification Telemetry
-                        </h3>
-                    </div>
-                    <form onsubmit="savePaymentSettings(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Bank / Telebirr Account Info</label>
-                            <input type="text" id="bank-input" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="Telebirr: 09XXXXXXXX - Name">
-                        </div>
-                        <div>
-                            <label class="block text-xs code-font text-gray-400 uppercase mb-1.5">Notification Email Address</label>
-                            <input type="email" id="email-input" required class="w-full bg-black/70 border border-blue-500/40 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-blue-400 code-font text-sm transition-all" placeholder="admin@domain.com">
-                        </div>
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-2.5 rounded-xl code-font text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 border border-blue-400/40">
-                            UPDATE PAYMENT GATEWAY
-                        </button>
-                    </form>
-                </div>
-
-                <!-- ACTIVE MISSIONS LIST -->
-                <div class="cyber-glass rounded-2xl p-6 box-glow-blue">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-blue-500/25">
-                        <h3 class="text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                            <i class="fa-solid fa-crosshairs text-blue-400"></i>Active Mission Registry
-                        </h3>
-                    </div>
-                    <div id="admin-courses-list" class="space-y-4">
-                        <p class="text-gray-500 code-font text-center py-8">Synchronizing active missions...</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+        </main>
     </div>
 
-    <!-- FIREBASE & ADMIN LOGIC -->
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyDWu_m6FqbkHv9wwUwgrn9sZM5PiPj_1lI",
+            apiKey: "AIzaSyCxV...", 
             authDomain: "nilesec-404.firebaseapp.com",
             projectId: "nilesec-404",
             storageBucket: "nilesec-404.firebasestorage.app",
             messagingSenderId: "375678315238",
             appId: "1:375678315238:web:bd9516cf63e19682efe927"
         };
-        firebase.initializeApp(firebaseConfig);
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.firestore();
 
-        // Simple Session Check
+        // Session persistence check
         if(localStorage.getItem("nilesec_admin_auth") === "true") {
             showDashboard();
         }
 
         function handleLogin(e) {
             e.preventDefault();
+            const email = document.getElementById("admin-email").value.trim().toLowerCase();
             const pass = document.getElementById("admin-pass").value;
-            // Secret tactical key for command access
+            const errorEl = document.getElementById("login-error");
+            
+            errorEl.classList.add("hidden");
+
+            // Root password verification fallback or custom database check
             if(pass === "nilesec2026root") {
                 localStorage.setItem("nilesec_admin_auth", "true");
                 showDashboard();
-            } else {
-                document.getElementById("login-error").classList.remove("hidden");
+                return;
             }
+
+            db.collection("commanders").where("email", "==", email).get().then((snapshot) => {
+                if(!snapshot.empty && pass.length >= 6) {
+                    localStorage.setItem("nilesec_admin_auth", "true");
+                    showDashboard();
+                } else {
+                    errorEl.textContent = "ACCESS DENIED: Invalid tactical clearance.";
+                    errorEl.classList.remove("hidden");
+                }
+            }).catch(() => {
+                errorEl.textContent = "TELEMETRY ERROR: Connection failed.";
+                errorEl.classList.remove("hidden");
+            });
         }
 
         function handleLogout() {
@@ -308,121 +132,29 @@
             loadAdminData();
         }
 
-        // Load Bank Settings, Notification Email & Courses in Admin Panel
         function loadAdminData() {
-            db.collection("settings").doc("payment").get().then((doc) => {
-                if(doc.exists) {
-                    if(doc.data().bankDetails) {
-                        document.getElementById("bank-input").value = doc.data().bankDetails;
-                    }
-                    if(doc.data().notificationEmail) {
-                        document.getElementById("email-input").value = doc.data().notificationEmail;
-                    } else {
-                        // Fallback default if not set yet
-                        document.getElementById("email-input").value = "natanimsiraw@gmail.com";
-                    }
-                }
-            });
-
             const listContainer = document.getElementById("admin-courses-list");
             db.collection("courses").onSnapshot((snapshot) => {
                 listContainer.innerHTML = "";
                 if(snapshot.empty) {
-                    listContainer.innerHTML = `<p class="text-gray-500 code-font text-center py-8">No missions currently registered in database.</p>`;
+                    listContainer.innerHTML = `<p class="text-gray-500 code-font text-xs">No missions found.</p>`;
                     return;
                 }
                 snapshot.forEach((docSnap) => {
                     const c = docSnap.data();
-                    const id = docSnap.id;
-                    const statusBadge = c.status === 'Open' 
-                        ? `<span class="text-green-400 bg-green-500/15 border border-green-500/40 px-2.5 py-0.5 rounded-full text-[10px] code-font font-bold">OPERATIONAL</span>`
-                        : `<span class="text-red-400 bg-red-500/15 border border-red-500/40 px-2.5 py-0.5 rounded-full text-[10px] code-font font-bold">LOCKED</span>`;
-
                     listContainer.innerHTML += `
-                        <div class="bg-black/60 border border-blue-500/25 rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all hover:border-blue-400/50">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-14 h-14 rounded-lg overflow-hidden border border-blue-500/30 flex-shrink-0 bg-black">
-                                    <img src="${c.imageUrl || 'photo_2026-06-20_18-04-20.jpg'}" class="w-full h-full object-cover">
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="text-white font-bold tracking-wide text-sm">${c.title}</h4>
-                                        ${statusBadge}
-                                    </div>
-                                    <span class="text-xs code-font text-blue-400">${c.duration || '10 Weeks'}</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
-                                <button onclick="editCourse('${id}', '${c.title.replace(/'/g, "\\'")}', '${c.description.replace(/'/g, "\\'")}', '${c.duration || ''}', '${c.imageUrl || ''}', '${c.status}')" class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-600 hover:text-white transition-all code-font text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="deleteCourse('${id}')" class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white transition-all code-font text-xs"><i class="fa-solid fa-trash"></i></button>
-                            </div>
+                        <div class="bg-black/60 border border-blue-500/20 rounded-xl p-4 flex items-center justify-between text-sm code-font">
+                            <span class="text-white font-bold">${escapeHtml(c.title)}</span>
+                            <span class="text-xs text-blue-400">${escapeHtml(c.status || 'Active')}</span>
                         </div>
                     `;
                 });
             });
         }
 
-        function saveCourse(e) {
-            e.preventDefault();
-            const id = document.getElementById("edit-course-id").value;
-            const title = document.getElementById("c-title").value;
-            const description = document.getElementById("c-desc").value;
-            const duration = document.getElementById("c-duration").value;
-            const imageUrl = document.getElementById("c-image").value;
-            const status = document.getElementById("c-status").value;
-
-            const courseData = { title, description, duration, imageUrl, status };
-
-            const promise = id 
-                ? db.collection("courses").doc(id).set(courseData)
-                : db.collection("courses").add(courseData);
-
-            promise.then(() => {
-                resetCourseForm();
-            }).catch(err => {
-                alert("Error transmitting mission data: " + err.message);
-            });
-        }
-
-        function editCourse(id, title, description, duration, imageUrl, status) {
-            document.getElementById("edit-course-id").value = id;
-            document.getElementById("c-title").value = title;
-            document.getElementById("c-desc").value = description;
-            document.getElementById("c-duration").value = duration;
-            document.getElementById("c-image").value = imageUrl;
-            document.getElementById("c-status").value = status;
-
-            document.getElementById("form-mode-title").innerHTML = `<i class="fa-solid fa-pen-to-square text-blue-400"></i>Modify Mission Record`;
-            document.getElementById("cancel-edit-btn").classList.remove("hidden");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function resetCourseForm() {
-            document.getElementById("course-form").reset();
-            document.getElementById("edit-course-id").value = "";
-            document.getElementById("form-mode-title").innerHTML = `<i class="fa-solid fa-plus text-blue-400"></i>Deploy New Mission`;
-            document.getElementById("cancel-edit-btn").classList.add("hidden");
-        }
-
-        function deleteCourse(id) {
-            if(confirm("Confirm deletion of this active mission record?")) {
-                db.collection("courses").doc(id).delete().catch(err => alert("Error deleting: " + err.message));
-            }
-        }
-
-        function savePaymentSettings(e) {
-            e.preventDefault();
-            const bankDetails = document.getElementById("bank-input").value;
-            const notificationEmail = document.getElementById("email-input").value;
-            
-            db.collection("settings").doc("payment").set({ 
-                bankDetails, 
-                notificationEmail 
-            }, { merge: true }).then(() => {
-                alert("Global payment and email telemetry updated successfully.");
-            }).catch(err => {
-                alert("Error updating settings: " + err.message);
-            });
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
