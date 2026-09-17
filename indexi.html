@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natanim Merkebu (RedSeaRooter) — Cybersecurity Specialist & Python Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("MaVEEjSSBdm7PAyL_");
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-color: #030712;
+            --surface: #0b0f19;
+            --surface-glass: rgba(11, 15, 25, 0.85);
+            --border: rgba(56, 189, 248, 0.15);
+            --border-hover: rgba(56, 189, 248, 0.4);
+            --accent-cyan: #38bdf8;
+            --accent-blue: #0ea5e9;
+            --accent-glow: rgba(56, 189, 248, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --error: #f43f5e;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        #access-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            transition: opacity 0.4s ease;
+        }
+
+        .gate-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.1);
+            text-align: center;
+        }
+
+        .gate-card h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .gate-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-upload-box {
+            position: relative;
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .avatar-preview-target {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .avatar-preview-target:hover {
+            border-color: #fff;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .avatar-preview-target img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .avatar-preview-target i {
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+        }
+
+        .hidden-file-input { display: none; }
+
+        .gate-error {
+            color: var(--error);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+            display: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .gate-success {
+            color: var(--success);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+            display: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active { color: var(--accent-cyan); }
+
+        .nav-btn-highlight {
+            display: none;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            color: var(--accent-cyan) !important;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem !important;
+        }
+        .nav-btn-highlight:hover {
+            background: var(--accent-cyan) !important;
+            color: #030712 !important;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 9rem 2rem 5rem 2rem;
+            position: relative;
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .page-section.active-section {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-console {
+            background: var(--surface-glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3.5rem 3rem;
+            position: relative;
+            backdrop-filter: blur(12px);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .console-tag {
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--accent-cyan);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.3rem, 4.5vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        p.hero-desc {
+            max-width: 680px;
+            color: var(--text-muted);
+            font-size: 1.02rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--accent-cyan);
+            color: #030712;
+            padding: 0.75rem 1.6rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
+            color: #fff;
+        }
+
+        .btn.danger {
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: var(--error);
+            box-shadow: none;
+        }
+        .btn.danger:hover {
+            background: var(--error);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+        }
+
+        .card {
+            background: var(--surface-glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            backdrop-filter: blur(12px);
+            margin-bottom: 2rem;
+        }
+
+        .card h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 i { color: var(--accent-cyan); }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.9rem;
+        }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-key { color: var(--text-muted); }
+        .metric-val { color: #fff; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+        .writeup-item {
+            background: rgba(2, 4, 8, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: border-color 0.2s ease;
+        }
+        .writeup-item:hover { border-color: var(--border-hover); }
+        .writeup-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .writeup-meta {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1rem;
+        }
+        .writeup-body {
+            font-size: 0.93rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+        .resource-download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--accent-cyan);
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .resource-download-link:hover {
+            background: var(--accent-cyan);
+            color: #030712;
+        }
+
+        .chat-container-box {
+            background: var(--surface-glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .chat-feed {
+            height: 380px;
+            background: rgba(2, 4, 8, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem;
+            overflow-y: auto;
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-msg {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 80%;
+            animation: fadeInMsg 0.3s ease;
+        }
+
+        @keyframes fadeInMsg {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.incoming { align-self: flex-start; }
+        .chat-msg.outgoing { align-self: flex-end; flex-direction: row-reverse; }
+
+        .chat-avatar-frame {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: #000;
+            object-fit: cover;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chat-content-stack {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-msg.outgoing .chat-content-stack { align-items: flex-end; }
+
+        .chat-username-tag {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chat-bubble-body {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            color: var(--text-main);
+            word-break: break-word;
+        }
+
+        .chat-msg.outgoing .chat-bubble-body {
+            background: var(--accent-cyan);
+            color: #030712;
+            font-weight: 500;
+            border: none;
+            box-shadow: 0 2px 12px var(--accent-glow);
+        }
+
+        .terminal-input {
+            width: 100%;
+            background: rgba(2, 4, 8, 0.8);
+            border: 1px solid var(--border);
+            padding: 0.85rem 1.1rem;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.92rem;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .file-upload-wrapper {
+            border: 1px dashed var(--border);
+            background: rgba(2, 4, 8, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .file-upload-wrapper:hover { border-color: var(--accent-cyan); }
+        .file-upload-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .file-upload-label span { color: var(--accent-cyan); }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @media(max-width: 900px) {
+            nav ul { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Access Gateway with Real Email OTP Verification -->
+    <div id="access-gate">
+        <div class="gate-card">
+            <h2>// SECURE_GATEWAY</h2>
+            <p>Enter your callsign and email. We will send a secure verification token directly to your inbox.</p>
+            
+            <form id="auth-form" onsubmit="handleAuthAction(event)">
+                <div class="avatar-upload-box">
+                    <label class="avatar-preview-target" id="gate-avatar-preview" title="Upload Profile Picture">
+                        <i class="fa-solid fa-camera" id="gate-camera-icon"></i>
+                        <img id="gate-avatar-img" src="" alt="Avatar">
+                        <input type="file" id="gate-avatar-file" class="hidden-file-input" accept="image/*" onchange="handleAvatarUpload(event)">
+                    </label>
+                </div>
+
+                <input type="text" id="username-input" class="terminal-input" placeholder="Enter handle (e.g., GuestOperator)..." required autocomplete="off">
+                <input type="email" id="email-input" class="terminal-input" placeholder="Enter email address..." required autocomplete="off">
+                
+                <!-- OTP Code Field -->
+                <div id="otp-container" style="display: none;">
+                    <input type="text" id="otp-code-input" class="terminal-input" placeholder="Enter 6-digit code received in your email..." autocomplete="off">
+                </div>
+
+                <button type="submit" id="gate-submit-btn" class="btn" style="width: 100%; justify-content: center;">Send Verification Code</button>
+                
+                <div id="gate-error" class="gate-error">[!] Invalid verification code or email mismatch.</div>
+                <div id="gate-success" class="gate-success">[+] Verification code dispatched to email. Check inbox.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header>
+        <a href="#" class="logo"><span>root@redsearooter:~#</span></a>
+        <nav>
+            <ul>
+                <li><a onclick="switchSection('overview')" id="nav-overview" class="active">Overview</a></li>
+                <li><a onclick="switchSection('skills')" id="nav-skills">Tech Stack</a></li>
+                <li><a onclick="switchSection('writeups')" id="nav-writeups">Resources</a></li>
+                <li><a onclick="switchSection('chat-section')" id="nav-chat-section">Comms Channel</a></li>
+                <li><a onclick="switchSection('contact')" id="nav-contact">Contact</a></li>
+                <li><a onclick="switchSection('edit-profile')" id="nav-edit-profile" class="nav-btn-highlight"><i class="fa-solid fa-user-pen"></i> Edit Profile</a></li>
+                <li><a onclick="switchSection('admin-panel')" id="nav-admin-panel" class="nav-btn-highlight"><i class="fa-solid fa-shield-halved"></i> Admin Panel</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1: OVERVIEW -->
+        <div id="section-overview" class="page-section active-section">
+            <div class="hero-console">
+                <div class="console-tag">
+                    <i class="fa-solid fa-terminal"></i> STATUS: SECURE ENCLAVE ACTIVE (<span id="display-user" style="color:#fff">Operator</span>)
+                </div>
+                <h1 id="hero-display-name">Natanim Merkebu</h1>
+                <div class="subtitle">Cybersecurity Specialist // Python Master & JavaScript Learner</div>
+                <p class="hero-desc">
+                    Offensive security enthusiast and CTF player specializing in web app exploitation, deep penetration testing methodologies, and developing automated utility toolsets using Python.
+                </p>
+                <div class="btn-group">
+                    <button onclick="switchSection('contact')" class="btn"><i class="fa-solid fa-paper-plane"></i> Transmit Message</button>
+                    <a href="https://t.me/sh3ll_3xp10it" target="_blank" class="btn secondary"><i class="fa-brands fa-telegram"></i> Telegram Profile</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-fingerprint"></i> Telemetry Overview</h3>
+                <div class="metric-row"><span class="metric-key">Primary Focus</span><span class="metric-val">Offensive Security & Web Pentesting</span></div>
+                <div class="metric-row"><span class="metric-key">Core Language Mastery</span><span class="metric-val">Python (Advanced Automation & Exploit Scripting)</span></div>
+                <div class="metric-row"><span class="metric-key">Active Skill Growth</span><span class="metric-val">JavaScript (Client-Side Logic & DOM Manipulation)</span></div>
+                <div class="metric-row"><span class="metric-key">TryHackMe Handle</span><span class="metric-val">RedSeaRooter (Top 15%)</span></div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: TECH STACK -->
+        <div id="section-skills" class="page-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-microchip"></i> Offensive Security & Programming Stack</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">
+                    An exhaustive breakdown of technical competencies, offensive frameworks, and programming proficiencies cultivated through intensive labs, CTFs, and real-world security assessments.
+                </p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="background: rgba(2,4,8,0.5); border: 1px solid var(--border); padding: 1.5rem; border-radius: 10px;">
+                        <div style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.5rem;">[+] Python Core Mastery & Exploit Scripting</div>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Extensive experience utilizing Python for network socket programming, multi-threaded port scanners, custom HTTP payload injectors, automated vulnerability enumeration scripts, and API integration tools. Leveraged daily to accelerate security auditing workflows and parse complex data streams efficiently.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(2,4,8,0.5); border: 1px solid var(--border); padding: 1.5rem; border-radius: 10px;">
+                        <div style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.5rem;">[+] JavaScript Development & Client-Side Auditing</div>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Active progression in modern JavaScript (ES6+), asynchronous programming, DOM parsing, and frontend web architecture. Focused on understanding client-side security mechanisms, identifying DOM-based Cross-Site Scripting (XSS) vectors, and analyzing insecure token handling implementations in single-page applications.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(2,4,8,0.5); border: 1px solid var(--border); padding: 1.5rem; border-radius: 10px;">
+                        <div style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.5rem;">[+] Penetration Testing & Web Vulnerability Assessment</div>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Deep practical understanding of the OWASP Top 10 vulnerability framework, covering injection flaws, broken authentication states, security misconfigurations, and server-side request forgery (SSRF). Adept at manual reconnaissance, traffic interception, and structural risk analysis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: RESOURCES -->
+        <div id="section-writeups" class="page-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-book-open"></i> Resources & CTF Writeups</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Archived walkthroughs, technical notes, and exploitation research compiled by RedSeaRooter.
+                </p>
+                <div id="writeups-feed">
+                    <!-- Default sample post has been completely removed -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: COMMS CHANNEL -->
+        <div id="section-chat-section" class="page-section">
+            <div class="chat-container-box">
+                <h3><i class="fa-solid fa-satellite-dish"></i> Live Comms Terminal</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.2rem; font-size: 0.9rem;">
+                    Secure real-time message stream linked with your active cryptographic profile.
+                </p>
+
+                <div id="chat-feed" class="chat-feed">
+                    <div class="chat-msg incoming">
+                        <div class="chat-avatar-frame"><i class="fa-solid fa-shield"></i></div>
+                        <div class="chat-content-stack">
+                            <div class="chat-username-tag">System Terminal</div>
+                            <div class="chat-bubble-body">Secure operational link established successfully.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="chat-form" onsubmit="sendChatMessage(event)" style="display: flex; gap: 10px;">
+                    <input type="text" id="chat-input" class="terminal-input" placeholder="Enter broadcast packet..." style="margin-bottom: 0;" required autocomplete="off">
+                    <button type="submit" class="btn" style="white-space: nowrap;"><i class="fa-solid fa-terminal"></i> Send</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECTION 5: CONTACT -->
+        <div id="section-contact" class="page-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-envelope"></i> Secure Message Dispatch</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Inquiries securely route to <span style="color: #fff; font-family: 'JetBrains Mono', monospace;">natanimsiraw@gmail.com</span>.
+                </p>
+                
+                <form action="https://formsubmit.co/natanimsiraw@gmail.com" method="POST">
+                    <input type="text" name="_honey" style="display:none">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">OPERATOR CALLSIGN</label>
+                        <input type="text" name="name" id="contact-name" class="terminal-input" required autocomplete="off">
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">RETURN EMAIL ADDRESS</label>
+                        <input type="email" name="email" class="terminal-input" placeholder="operator@domain.com" required autocomplete="off">
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">PAYLOAD MESSAGE</label>
+                        <textarea name="message" class="terminal-input" rows="4" placeholder="Write inquiry transmission..." required style="resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-paper-plane"></i> Transmit Packet
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECTION 6: EDIT PROFILE -->
+        <div id="section-edit-profile" class="page-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-user-pen"></i> Account Profile Settings</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Modify your operator callsign, contact email address, or update your avatar picture instantly.
+                </p>
+
+                <form onsubmit="saveProfileEdits(event)">
+                    <div class="avatar-upload-box" style="margin-bottom: 1.5rem;">
+                        <label class="avatar-preview-target" title="Change Profile Picture">
+                            <i class="fa-solid fa-camera" id="edit-camera-icon"></i>
+                            <img id="edit-avatar-img" src="" alt="Avatar">
+                            <input type="file" class="hidden-file-input" accept="image/*" onchange="handleProfileAvatarChange(event)">
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">OPERATOR NAME / CALLSIGN</label>
+                        <input type="text" id="edit-profile-name" class="terminal-input" required autocomplete="off">
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">REGISTERED EMAIL ADDRESS</label>
+                        <input type="email" id="edit-profile-email" class="terminal-input" required autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Profile Modifications
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECTION 7: ADMIN PANEL -->
+        <div id="section-admin-panel" class="page-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-shield-halved"></i> Operator Control Center // Resource & File Manager</h3>
+                <p style="color: var(--success); margin-bottom: 1.5rem; font-size: 0.9rem; font-family: 'JetBrains Mono', monospace;">
+                    [+] Authenticated Administrator. Publish notes and delete resources live.
+                </p>
+
+                <form onsubmit="publishWriteup(event)">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">RESOURCE TITLE</label>
+                        <input type="text" id="admin-title" class="terminal-input" placeholder="e.g., Advanced Web Enumeration Walkthrough" required autocomplete="off">
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">CATEGORY / TAG</label>
+                        <input type="text" id="admin-meta" class="terminal-input" placeholder="e.g., [ TryHackMe / Python Security ]" required autocomplete="off">
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; font-family:'JetBrains Mono', monospace;">RESOURCE CONTENT</label>
+                        <textarea id="admin-body" class="terminal-input" rows="4" placeholder="Detail notes, exploitation steps, technical breakdown..." required style="resize: vertical;"></textarea>
+                    </div>
+
+                    <!-- File Uploader Widget -->
+                    <div class="file-upload-wrapper">
+                        <label class="file-upload-label">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.2rem; color: var(--accent-cyan);"></i>
+                            <span id="file-upload-text">Attach document, script or payload file (Optional)</span>
+                            <input type="file" id="admin-file-input" style="display: none;" onchange="handleResourceFileSelect(event)">
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-upload"></i> Publish Resource Live
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>// © 2026 NATANIM MERKEBU (REDSEAROOTER). SECURE ENCLAVE PROTOCOLS ENFORCED.</p>
+    </footer>
+
+    <script>
+        let activeOperator = '';
+        let userEmail = '';
+        let userAvatarData = '';
+        
+        let generatedOtpCode = '';
+        let otpSentState = false;
+        let attachedFileObject = null;
+        let postIdCounter = 1;
+
+        function switchSection(sectionId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active-section'));
+
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + sectionId);
+            if (targetSection) targetSection.classList.add('active-section');
+
+            const targetNav = document.getElementById('nav-' + sectionId);
+            if (targetNav) targetNav.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userAvatarData = e.target.result;
+                    const img = document.getElementById('gate-avatar-img');
+                    const icon = document.getElementById('gate-camera-icon');
+                    img.src = userAvatarData;
+                    img.style.display = 'block';
+                    icon.style.display = 'none';
+
+                    const editImg = document.getElementById('edit-avatar-img');
+                    const editIcon = document.getElementById('edit-camera-icon');
+                    editImg.src = userAvatarData;
+                    editImg.style.display = 'block';
+                    editIcon.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleProfileAvatarChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userAvatarData = e.target.result;
+                    const editImg = document.getElementById('edit-avatar-img');
+                    const editIcon = document.getElementById('edit-camera-icon');
+                    editImg.src = userAvatarData;
+                    editImg.style.display = 'block';
+                    editIcon.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfileEdits(event) {
+            event.preventDefault();
+            const newName = document.getElementById('edit-profile-name').value.trim();
+            const newEmail = document.getElementById('edit-profile-email').value.trim().toLowerCase();
+
+            if (!newName || !newEmail) return;
+
+            activeOperator = newName;
+            userEmail = newEmail;
+
+            document.getElementById('display-user').innerText = activeOperator;
+            document.getElementById('hero-display-name').innerText = activeOperator;
+            document.getElementById('contact-name').value = activeOperator;
+
+            if (userEmail === 'natanimsiraw@gmail.com') {
+                document.getElementById('nav-admin-panel').style.display = 'inline-block';
+            } else {
+                document.getElementById('nav-admin-panel').style.display = 'none';
+            }
+
+            alert('Profile configuration updated successfully!');
+            switchSection('overview');
+        }
+
+        function handleResourceFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                attachedFileObject = file;
+                document.getElementById('file-upload-text').innerText = `Attached: ${file.name}`;
+            }
+        }
+
+        function handleAuthAction(event) {
+            event.preventDefault();
+            const usernameField = document.getElementById('username-input');
+            const emailField = document.getElementById('email-input');
+            const otpContainer = document.getElementById('otp-container');
+            const otpCodeInput = document.getElementById('otp-code-input');
+            const submitBtn = document.getElementById('gate-submit-btn');
+            const errorBox = document.getElementById('gate-error');
+            const successBox = document.getElementById('gate-success');
+
+            errorBox.style.display = 'none';
+
+            if (!otpSentState) {
+                activeOperator = usernameField.value.trim();
+                userEmail = emailField.value.trim().toLowerCase();
+
+                generatedOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+                const expiryTime = new Date(Date.now() + 15 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                submitBtn.innerText = 'Dispatching Email...';
+                submitBtn.disabled = true;
+
+                const templateParams = {
+                    to_email: userEmail,
+                    otp_code: generatedOtpCode,
+                    time: expiryTime
+                };
+
+                const SERVICE_ID = "service_feb0ifk";
+                const TEMPLATE_ID = "template_2tx03m8";
+
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+                    .then(function(response) {
+                        successBox.style.display = 'block';
+                        successBox.innerText = `[+] Code successfully sent to ${userEmail}! Check your inbox.`;
+                        
+                        usernameField.readOnly = true;
+                        emailField.readOnly = true;
+                        otpContainer.style.display = 'block';
+                        otpCodeInput.required = true;
+                        submitBtn.innerText = 'Verify & Enter Enclave';
+                        submitBtn.disabled = false;
+                        otpSentState = true;
+                    }, function(error) {
+                        errorBox.style.display = 'block';
+                        errorBox.innerText = '[!] Failed to dispatch email. Check EmailJS configuration.';
+                        submitBtn.innerText = 'Send Verification Code';
+                        submitBtn.disabled = false;
+                    });
+
+            } else {
+                const enteredCode = otpCodeInput.value.trim();
+
+                if (enteredCode === generatedOtpCode) {
+                    document.getElementById('display-user').innerText = activeOperator;
+                    document.getElementById('hero-display-name').innerText = activeOperator;
+                    document.getElementById('contact-name').value = activeOperator;
+                    document.getElementById('edit-profile-name').value = activeOperator;
+                    document.getElementById('edit-profile-email').value = userEmail;
+
+                    if (userAvatarData) {
+                        const editImg = document.getElementById('edit-avatar-img');
+                        const editIcon = document.getElementById('edit-camera-icon');
+                        editImg.src = userAvatarData;
+                        editImg.style.display = 'block';
+                        editIcon.style.display = 'none';
+                    }
+
+                    if (userEmail === 'natanimsiraw@gmail.com') {
+                        document.getElementById('nav-admin-panel').style.display = 'inline-block';
+                        document.getElementById('nav-edit-profile').style.display = 'inline-block';
+                    }
+
+                    const gate = document.getElementById('access-gate');
+                    gate.style.opacity = '0';
+                    setTimeout(() => { gate.style.display = 'none'; }, 400);
+                } else {
+                    errorBox.style.display = 'block';
+                    errorBox.innerText = '[!] Incorrect verification code entered.';
+                    otpCodeInput.value = '';
+                }
+            }
+        }
+
+        function sendChatMessage(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('chat-input');
+            const txt = inputField.value.trim();
+            if (!txt) return;
+
+            const feed = document.getElementById('chat-feed');
+            const currentName = document.getElementById('contact-name').value.trim() || activeOperator;
+
+            let avatarHTML = '';
+            if (userAvatarData) {
+                avatarHTML = `<img src="${userAvatarData}" class="chat-avatar-frame" alt="Avatar">`;
+            } else {
+                avatarHTML = `<div class="chat-avatar-frame">${currentName.charAt(0).toUpperCase()}</div>`;
+            }
+
+            const msgNode = document.createElement('div');
+            msgNode.className = 'chat-msg outgoing';
+            msgNode.innerHTML = `
+                ${avatarHTML}
+                <div class="chat-content-stack">
+                    <div class="chat-username-tag">${sanitizeHTML(currentName)}</div>
+                    <div class="chat-bubble-body">${sanitizeHTML(txt)}</div>
+                </div>
+            `;
+            feed.appendChild(msgNode);
+
+            inputField.value = '';
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function publishWriteup(event) {
+            event.preventDefault();
+            if (userEmail !== 'natanimsiraw@gmail.com') {
+                alert('Unauthorized publishing action blocked.');
+                return;
+            }
+
+            const title = document.getElementById('admin-title').value.trim();
+            const meta = document.getElementById('admin-meta').value.trim();
+            const body = document.getElementById('admin-body').value.trim();
+            const postId = 'post-' + (++postIdCounter);
+
+            let fileMarkup = '';
+            if (attachedFileObject) {
+                const fileObjectURL = URL.createObjectURL(attachedFileObject);
+                fileMarkup = `<div style="margin-top: 1rem;"><a href="${fileObjectURL}" download="${attachedFileObject.name}" class="resource-download-link"><i class="fa-solid fa-download"></i> Download Attached: ${sanitizeHTML(attachedFileObject.name)}</a></div>`;
+            }
+
+            let adminDeleteMarkup = '';
+            if (userEmail === 'natanimsiraw@gmail.com') {
+                adminDeleteMarkup = `
+                    <div style="margin-top: 1rem;">
+                        <button onclick="deleteWriteupNode('${postId}')" class="btn danger" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete Post</button>
+                    </div>
+                `;
+            }
+
+            const feed = document.getElementById('writeups-feed');
+            const item = document.createElement('div');
+            item.className = 'writeup-item';
+            item.id = postId;
+            item.innerHTML = `
+                <div class="writeup-title">${sanitizeHTML(title)}</div>
+                <div class="writeup-meta">${sanitizeHTML(meta)} — Published by ${sanitizeHTML(activeOperator)}</div>
+                <div class="writeup-body">${sanitizeHTML(body)}</div>
+                ${fileMarkup}
+                ${adminDeleteMarkup}
+            `;
+            feed.prepend(item);
+
+            document.getElementById('admin-title').value = '';
+            document.getElementById('admin-meta').value = '';
+            document.getElementById('admin-body').value = '';
+            document.getElementById('file-upload-text').innerText = 'Attach document, script or payload file (Optional)';
+            attachedFileObject = null;
+
+            alert('Resource published successfully!');
+            switchSection('writeups');
+        }
+
+        function deleteWriteupNode(nodeId) {
+            if (userEmail !== 'natanimsiraw@gmail.com') {
+                alert('Unauthorized deletion action blocked.');
+                return;
+            }
+            if (confirm('Are you sure you want to permanently delete this resource post?')) {
+                const node = document.getElementById(nodeId);
+                if (node) {
+                    node.remove();
+                    alert('Resource post deleted successfully.');
+                }
+            }
+        }
+
+        function sanitizeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
